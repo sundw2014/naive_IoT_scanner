@@ -6,8 +6,8 @@ from scrapy.http import HtmlResponse
 class WebCameraXPSpider(scrapy.Spider):
     name = "WebCameraXP"
     custom_settings = {
-        'CONCURRENT_ITEMS': 100,
-	'CONCURRENT_REQUESTS' : 100,
+        'CONCURRENT_ITEMS': 1000,
+	'CONCURRENT_REQUESTS' : 1000,
 	'DOWNLOAD_TIMEOUT' : 1.0,
 	'RETRY_TIMES' : 0,
 	'DEPTH_PRIORITY' : 1,
@@ -25,11 +25,7 @@ class WebCameraXPSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
-        #from IPython import embed; embed()
-        if len(response.xpath('//img[@class="webcam"]')) > 0:
-            self.log('find a WebCameraXP without password : ' + response.url)
-	else:
-            self.log('up host no WebCameraXP : ' + response.url)
+        self.log('up host no WebCameraXP : ' + response.url)
     def handle_error(self, failure):
         self.log("Request failed: %s" % failure.request)
 
